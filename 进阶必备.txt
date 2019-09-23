@@ -53,15 +53,14 @@
 【进阶 27 期】VueRouter 源码解析
 
 【进阶 28 期】ReactRouter
-bind实现
-call,apply实现
+bind，call,apply实现
 new实现 
 柯里化
 promise实现
 //let c = Object.create(null) JS中创建一个空对象最简单的方法是**Object.create(null)**，这个和{}很像，但是并不会创建Object.prototype这个委托，所以比{}更空。
 防抖/节流实现
 tcp三次/四次握手
-
+深拷贝
 == 与 ===
 nodejs中间层实现与其他语言嫁接，ssr作用
 包括es6的数据结构与算法

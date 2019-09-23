@@ -50,3 +50,64 @@ this总是指向调用该函数的对象。除了箭头函数
 		person1.show4()() //person1 person1.show4()运行时箭头函数中的this已经绑定到了person1 箭头函数绑定，this指向外层作用域
 		person1.show4().call(person2) //person1 箭头函数的this无法使用bind call apply改变
 		person1.show4.call(person2)() //person2 改变闭包中this指向
+
+构造函数的
+
+		/**
+		 * 非严格模式
+		 */
+		
+		var name = 'window'
+		
+		function Person (name) {
+		  this.name = name;
+		  this.show1 = function () {
+		    console.log(this.name)
+		  }
+		  this.show2 = () => console.log(this.name)
+		  this.show3 = function () {
+		    return function () {
+		      console.log(this.name)
+		    }
+		  }
+		  this.show4 = function () {
+		    return () => console.log(this.name)
+		  }
+		}
+		
+		var personA = new Person('personA')
+		var personB = new Person('personB')
+		
+		personA.show1() // personA
+		personA.show1.call(personB) //personB
+		
+		personA.show2() // personA
+		personA.show2.call(personB) // personA bind / call / apply 改变不了箭头函数的this
+		
+		personA.show3()() // window
+		personA.show3().call(personB) // personB
+		personA.show3.call(personB)() // window
+		
+		personA.show4()() // personA
+		personA.show4().call(personB) // personA
+		personA.show4.call(personB)() // personB
+
+编译阶段obj为undfined
+
+	// 1、赋值语句是右执行的,此时会先执行右侧的对象
+	var obj = {
+	    // 2、say 是立即执行函数
+	    say: function() {
+	        function _say() {
+	            // 5、输出 window
+	            console.log(this);
+	        }
+	        // 3、编译阶段 obj 赋值为 undefined
+	        console.log(obj);
+	        // 4、obj是 undefined，bind 本身是 call实现，
+	        // 【进阶3-3期】：call 接收 undefined 会绑定到 window。
+	        return _say.bind(obj);
+	    }(),
+	};
+	obj.say();
+
